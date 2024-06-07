@@ -117,19 +117,19 @@ with cte as (
 	        )
 select month,weekday,weekend
 from (
-		select month,month_number,
-			   sum(case when day_type = 'weekday' then sales else 0 end) as weekday,
-			   sum(case when day_type = 'weekend' then sales else 0 end) as weekend
+	select month,month_number,
+		    sum(case when day_type = 'weekday' then sales else 0 end) as weekday,
+		    sum(case when day_type = 'weekend' then sales else 0 end) as weekend
 		from (
-				select month,day_type,month_number,
-					   sum(sales) as sales
+	               select month,day_type,month_number,
+			      sum(sales) as sales
 				from (
-						select  month,month_number,round((transaction_qty*unit_price),2) as sales,
-								case 
-									when day_week_number in (0,6) then 'weekend'
-									else 'weekday'
-								 end as day_type
-						from cte
+	                                select  month,month_number,round((transaction_qty*unit_price),2) as sales,
+						case 
+	                                             when day_week_number in (0,6) then 'weekend'
+						     else 'weekday'
+						end as day_type
+					from cte
 					  ) subquery
 				group by month,day_type,month_number
 				order by sales desc
@@ -158,17 +158,17 @@ order by sales desc
 select * from coffee_sales
 
 with cte as (
-				select product_category,product_type,
-					   round(sum(transaction_qty*unit_price),2) as sales
-				from coffee_sales
-				group by product_category,product_type,store_location
-				order by sales desc
+	      select product_category,product_type,
+		     round(sum(transaction_qty*unit_price),2) as sales
+	      from coffee_sales
+	      group by product_category,product_type,store_location
+	      order by sales desc
             )
 select product_category,product_type,sales
 from (
-		select product_category,product_type,sales,
-			   dense_rank() over(partition by product_category order by sales desc) rnk
-		from cte
+	select product_category,product_type,sales,
+	       dense_rank() over(partition by product_category order by sales desc) rnk
+	from cte
 	  ) subquery
 where rnk = 1
 
