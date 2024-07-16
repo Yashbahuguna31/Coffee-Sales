@@ -51,3 +51,7 @@ Purpose: To analyze growth or decline in sales over consecutive periods.
 
 Description: Shows the percentage change in sales, quantity, and orders compared to the previous period. Tables and bar charts display the percentage change, helping to identify trends in sales growth or decline.
 
+## Dashboard
+<img width="598" alt="Screenshot 2024-07-16 161500" src="https://github.com/user-attachments/assets/45490c1a-d1da-40b5-8104-aff5a61998bf">
+
+
